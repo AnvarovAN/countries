@@ -1,0 +1,43 @@
+*{
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    list-style: none;
+    box-sizing: border-box;
+}
+.header{
+  display: flex;
+  align-items: center;
+  background: hsl(209, 23%, 22%);
+  width: 100%;
+  height: 80px;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+.container{
+    width: 100%;
+    max-width: 1140px;
+    padding: 0 15px;
+    margin: 0 auto;
+}
+.header__title{
+  font-size: 1rem;
+  color: aliceblue;
+}
+p{
+  color: aliceblue;
+}
+h3{
+  color: aliceblue;
+}
+.Loader, .Error{
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+}

@@ -1,0 +1,44 @@
+.details{
+    margin-top: 100px;
+}
+li{
+    color: aliceblue;
+    font-size:  1rem;
+
+}
+.details__title1
+{
+    color: aliceblue;
+    font-size: 2rem;
+}
+.details-content{
+    display: flex;
+    flex-direction: column;
+    row-gap: 2rem;
+}
+.details-btm{
+    display: flex;
+    justify-content: space-between;
+}
+.details-info{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.details-info-list{
+display: flex;
+align-items: center;
+column-gap: 4rem;
+}
+li
+{
+    font-size: 1.3rem;
+}
+.span-info{
+    font-size: 1.4rem;
+    color: darkgrey;
+}
+.borders{
+    font-size: 1.3rem;
+    
+}
