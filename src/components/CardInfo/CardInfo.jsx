@@ -1,112 +1,85 @@
-import { useEffect, useState } from 'react'
-import "./CardInfo.css"
+import { useEffect, useState } from "react";
+import axios from "axios";
 import Button from '@mui/material/Button';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import axios from 'axios';
-import { useParams, Link } from 'react-router-dom';
+import { Link, useParams } from "react-router-dom";
 import "./CardInfo.css"
 import { ClipLoader } from 'react-spinners';
 const CardInfo = () => {
-
-  const {id} = useParams();
-  
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState([]);
+  const [load, setLoad] = useState(false);
   const [error, setError] = useState(null)
-  
-  const fetchData = async () =>{
-    setLoading(true)
+  const [info, setInfo] = useState([]);
+
+
+  const { id } = useParams();
+
+
+  const fetchData = async () => {
+    setLoad(true)
     try {
       const response = await axios.get(`https://restcountries.com/v3.1/alpha/${id}`)
-      console.log(response);
-      setData(response.data)
+      setInfo(response.data)
     } catch (error) {
       setError(error.message)
     }
-    finally{
-      setLoading(false)
-  }
-}
-
-  useEffect(()=>{
-    fetchData();
-  }, [])
-  
-  let name;
-  let flag;
-  let nativeName;
-  let population;
-  let region;
-  let subRegion;
-  let capital;
-  let currency;
-  let languages;
-  let borders =[];
-
-  data.forEach((el) => {
-    if (el.ccn3 === id) {
-      name = el.name.common;
-      flag = el.flags.png;
-      nativeName = name;
-      population = el.population;
-      region = el.region;
-      subRegion = el.subregion;
-      capital = el.capital;
-      languages = el.languages.eng;
-      el.borders?.forEach(element => {
-        borders.push(element.borders)        
-      });
-
+    finally {
+      setLoad(false)
     }
-  });
-  if (loading) {
-    return <div className="Loader"><ClipLoader size={100} color='#36d7b7'/></div>
-} else if (error) {
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, [id]);
+
+
+  if (load) {
+    return <div className="Loader"><ClipLoader size={100} color='#36d7b7' /></div>
+  } else if (error) {
     return <div className="Error"><p className='catchError'>{error}</p></div>
-} else{
+  } else {
     return (
-    <div className='details'>
-      <div className="container">
-        <div className="details-content">
-          <div className="details-content__top">
-            <Link to='/'>
-              <Button variant='contained'>
-                <ArrowBackIcon />
-                Назад
-              </Button>
-            </Link>
+      <div className='details'>
+        <div className="container">
+          <div className="details-content">
+            <div className="details-content__top">
+              <Link to='/'>
+                <Button variant='contained'>
+                  <ArrowBackIcon />
+                  Назад
+                </Button>
+              </Link>
+            </div>
+            {
+              info.map((el) => (
+                <div className="details-btm">
+                  <div className="details-flag">
+                    <img className="details-flag-img" src={el.flags.png} alt="" />
+                  </div>
+                  <div className="details-info">
+                    <div className="details-info-title">
+                      <h2 className='details__title1'>{el.name.common}</h2>
+                    </div>
+                    <div className="details-info-list">
+                      <ul className="deatils-list1">
+                        <li>Native name: <span className='span-info'>{el.name.official}</span></li>
+                        <li>Population: <span className='span-info'>{new Intl.NumberFormat().format(el.population)}</span></li>
+                        <li>Region: <span className='span-info'>{el.region}</span></li>
+                      </ul>
+                      <ul className="deatils-list2">
+                        <li>Sub Region: <span className='span-info'>{el.subregion}</span></li>
+                        <li>Capital: <span className='span-info'>{el.capital}</span></li>
+                        <li className="languages">Languages:<span className='span-info'> {Object.values(el.languages)[0]}</span></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              ))
+            }
           </div>
-              <div className="details-btm">
-                <div className="details-flag">
-                  <img src={flag} alt="" />
-                </div>
-                <div className="details-info">
-                  <div className="details-info-title">
-                      <h2 className='details__title1'>{name}</h2>
-                  </div>
-                  <div className="details-info-list">
-                    <ul className="deatils-list1">
-                      <li>Native name: <span className='span-info'>{nativeName}</span></li>
-                      <li>Population: <span className='span-info'>{new Intl.NumberFormat().format(population)}</span></li>
-                      <li>Region: <span className='span-info'>{region}</span></li>
-                    </ul>
-                    <ul className="deatils-list2">
-                      <li>Sub Region: <span className='span-info'>{subRegion}</span></li>
-                      <li>Capital: <span className='span-info'>{capital}</span></li>
-                      <li>Languages: <span className='span-info'>{languages}</span></li>
-                    </ul>
-                  </div>
-                  <div className="details-border">
-                    <p className='borders'>Border countries: {}</p>
-                    <Button />
-                  </div>
-                </div>
-              </div>
         </div>
       </div>
-    </div>
-  )
-}
+    )
+  }
 }
 
 export default CardInfo
